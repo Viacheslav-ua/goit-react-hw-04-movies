@@ -10,3 +10,6 @@
 .activeLink {
   color: #c74e1e;
 }
+.navigation {
+  border-bottom: solid 3px #b6babb;
+}

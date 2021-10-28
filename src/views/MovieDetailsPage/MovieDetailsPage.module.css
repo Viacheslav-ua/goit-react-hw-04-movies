@@ -1,0 +1,23 @@
+.movieBlock {
+  padding: 15px 0;
+  display: flex;
+  border-bottom: solid 3px #b6babb;
+}
+
+.textBlock {
+  margin-left: 25px;
+}
+
+.addInfBlock {
+  border-bottom: solid 3px #b6babb;
+}
+
+.link {
+  color: #46585f;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.activeLink {
+  color: #155bb8;
+}
