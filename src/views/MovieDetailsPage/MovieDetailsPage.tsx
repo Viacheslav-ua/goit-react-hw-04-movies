@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useHistory } from "react-router-dom";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
 import { movieTypes } from "../../interfaces/interfaces";
 import { getMovieDetails } from "../../services/theMovieAPI";
@@ -15,22 +15,30 @@ interface paramsTypes {
   movieId: string;
 }
 
+
 const MovieDetailsPage: React.FC = () => {
   const baseURL: string = "https://image.tmdb.org/t/p";
+  const location = useLocation<any>();
+  const history = useHistory();
   const { movieId } = useParams<paramsTypes>();
   const { url } = useRouteMatch<string>();
-  const location = useLocation();
-  console.log(location);
+  
   const [movie, setMovie] = useState<movieTypes | null>(null);
+  let prevLocation: string = ""
 
   useEffect(() => {
     getMovieDetails(movieId).then(setMovie);
-    console.log(location);
+    prevLocation = location?.state?.from ?? "/"
+
   }, []);
+
+  const onGoBack = () => {
+    history.push(prevLocation)
+  }
 
   return (
     <>
-      <ButtonGoBack />
+      <ButtonGoBack onGoBack={onGoBack}/>
       {movie && (
         <>
           <div className={s.movieBlock}>

@@ -14,6 +14,7 @@ const HomePage: React.FC = () => {
   const [movies, setMovies] = useState<movieTypes[] | null>(null);
   // const { url } = useRouteMatch<string>();
   const location = useLocation();
+  
   useEffect(() => {
     getTrending().then(setMovies);
   }, []);
@@ -24,16 +25,10 @@ const HomePage: React.FC = () => {
         {movies &&
           movies.map((item: movieTypes) => (
             <li key={item.id}>
-              <Link to={`/movies/${item.id}`}>{item.title}</Link>
               <Link
                 to={{
                   pathname: `/movies/${item.id}`,
-                  // eslint-disable-next-line no-restricted-globals
-                  state: {
-                    from: location,
-                    id: "asd",
-                  },
-                  search: "dfg",
+                  state: {from: location},
                 }}
               >
                 {item.title}

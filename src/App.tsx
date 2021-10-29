@@ -1,20 +1,21 @@
 import React from "react";
+import { lazy, Suspense } from "react";
 import { Switch, Route } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Container from "./components/generic/Container";
 import Navigation from "./components/Navigation";
-import HomePage from "./views/HomePage";
-import MovieDetailsPage from "./views/MovieDetailsPage";
-import MoviesPage from "./views/MoviesPage";
-import NotFound from "./views/NotFound";
+
+const HomePage = lazy(() => import("./views/HomePage"));
+const MovieDetailsPage = lazy(() => import("./views/MovieDetailsPage"));
+const MoviesPage = lazy(() => import("./views/MoviesPage"));
 
 const App: React.FC = () => {
   return (
     <Container>
       <Navigation />
-
+      <Suspense fallback={<h1>LOAD...</h1>}>
       <Switch>
         <Route path="/" exact>
           <HomePage />
@@ -27,11 +28,8 @@ const App: React.FC = () => {
         <Route path="/movies/:movieId">
           <MovieDetailsPage />
         </Route>
-
-        <Route>
-          <NotFound />
-        </Route>
       </Switch>
+      </Suspense>
       <ToastContainer autoClose={3000} />
     </Container>
   );
