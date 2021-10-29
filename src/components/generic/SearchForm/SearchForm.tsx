@@ -24,7 +24,7 @@ const SearchForm: React.FC<propTypes> = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={s.frm}>
       <input
         type="text"
         className={s.input}
@@ -32,7 +32,7 @@ const SearchForm: React.FC<propTypes> = ({ onSubmit }) => {
         value={searchStr}
         onChange={handleInputChang}
       />
-      <button type="submit">Search</button>
+      <button type="submit" className={s.btn}>Search</button>
     </form>
   );
 };

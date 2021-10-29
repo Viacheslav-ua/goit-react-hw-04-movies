@@ -8,35 +8,23 @@ interface titleListType {
 }
 
 export const getTrending = () => {
-  // setLoading(true);
   return fetch(`${BASE_URL}trending/movie/day?api_key=${API_KEY}`)
     .then((res) => res.json())
     .then((res) => {
-      //return { results: res.results };
-      // const moviesList: titleListType[] =
       return res.results.map((item: titleListType) => {
         return {
           id: item.id,
           title: item.title,
         };
       });
-      // if (res.totalHits === 0) {
-      //   return Promise.reject(
-      //     new Error("No images matching the search string")
-      //   );
-      // }
-      //   return res;
-      // })
-
-      // .then((res) => getPictures(res))
-      // .catch((err) => {
-      //   toast.error(err.message);
-      // })
-      // .finally(() => setLoading(false));
     });
 };
 
-export const searchMovies = (searchString: string) => {};
+export const searchMovies = (searchString: string) => {
+  return fetch(`${BASE_URL}search/movie?api_key=${API_KEY}
+  &language=en-US&query=${searchString}&page=1&include_adult=false`) 
+  .then((res) => res.json());
+};
 
 export const getMovieDetails = (movieId: string) => {
   return fetch(`${BASE_URL}/movie/${movieId}?api_key=${API_KEY}`).then((res) =>

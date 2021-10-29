@@ -1,7 +1,7 @@
 import React from "react";
 import { lazy, Suspense } from "react";
-import { Switch, Route } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { Switch, Route, Redirect } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Container from "./components/generic/Container";
@@ -28,9 +28,11 @@ const App: React.FC = () => {
         <Route path="/movies/:movieId">
           <MovieDetailsPage />
         </Route>
+
+        <Redirect to="/" />
       </Switch>
       </Suspense>
-      <ToastContainer autoClose={3000} />
+      <ToastContainer autoClose={4000} />
     </Container>
   );
 };
