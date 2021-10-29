@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
 import { movieTypes } from "../../interfaces/interfaces";
 import { getMovieDetails } from "../../services/theMovieAPI";
@@ -18,10 +18,14 @@ interface paramsTypes {
 const MovieDetailsPage: React.FC = () => {
   const baseURL: string = "https://image.tmdb.org/t/p";
   const { movieId } = useParams<paramsTypes>();
-  const { url } = useRouteMatch();
+  const { url } = useRouteMatch<string>();
+  const location = useLocation();
+  console.log(location);
   const [movie, setMovie] = useState<movieTypes | null>(null);
+
   useEffect(() => {
     getMovieDetails(movieId).then(setMovie);
+    console.log(location);
   }, []);
 
   return (
