@@ -10,21 +10,24 @@ interface titleListType {
 export const getTrending = () => {
   return fetch(`${BASE_URL}trending/movie/day?api_key=${API_KEY}`)
     .then((res) => res.json())
-    .then((res) => {
-      return res.results.map((item: titleListType) => {
-        return {
-          id: item.id,
-          title: item.title,
-        };
-      });
-    });
+    .then((res) => getTitlesList(res));
 };
 
 export const searchMovies = (searchString: string) => {
-  return fetch(`${BASE_URL}search/movie?api_key=${API_KEY}
-  &language=en-US&query=${searchString}&page=1&include_adult=false`) 
-  .then((res) => res.json());
+  return fetch(`${BASE_URL}search/movie?api_key=${API_KEY}&language=en-US&query=${searchString}&page=1&include_adult=false`) 
+  .then((res) => res.json())
+  .then((res) => getTitlesList(res));
 };
+
+const getTitlesList = (res: any) => {
+  return res.results.map((item: titleListType) => {
+    return {
+      id: item.id,
+      title: item.title,
+    };
+  });
+
+}
 
 export const getMovieDetails = (movieId: string) => {
   return fetch(`${BASE_URL}/movie/${movieId}?api_key=${API_KEY}`).then((res) =>

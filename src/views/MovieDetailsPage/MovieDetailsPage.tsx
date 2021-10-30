@@ -1,4 +1,5 @@
 import React from "react";
+import { lazy, Suspense } from "react";
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useParams, useLocation, useHistory } from "react-router-dom";
@@ -8,8 +9,9 @@ import { getMovieDetails } from "../../services/theMovieAPI";
 import ButtonGoBack from "../../components/generic/ButtonGoBack";
 import Heading from "../../components/generic/Heading";
 import s from "./MovieDetailsPage.module.css";
-import Cast from "../../components/Cast";
-import Reviews from "../../components/Reviews";
+
+const Cast = lazy(() => import("../../components/Cast"));
+const Reviews = lazy(() => import("../../components/Reviews"));
 
 interface paramsTypes {
   movieId: string;
@@ -22,14 +24,14 @@ const MovieDetailsPage: React.FC = () => {
   const history = useHistory();
   const { movieId } = useParams<paramsTypes>();
   const { url } = useRouteMatch<string>();
-  
+
   const [movie, setMovie] = useState<movieTypes | null>(null);
-  let prevLocation: string = ""
+  const [prevLocation, setPrevLocation] = useState<any>()
+
 
   useEffect(() => {
     getMovieDetails(movieId).then(setMovie);
-    prevLocation = location?.state?.from ?? "/"
-
+    setPrevLocation(location?.state?.from ?? "/")
   }, []);
 
   const onGoBack = () => {
@@ -38,7 +40,7 @@ const MovieDetailsPage: React.FC = () => {
 
   return (
     <>
-      <ButtonGoBack onGoBack={onGoBack}/>
+      <ButtonGoBack onGoBack={onGoBack} />
       {movie && (
         <>
           <div className={s.movieBlock}>
@@ -83,15 +85,17 @@ const MovieDetailsPage: React.FC = () => {
               </li>
             </ul>
           </div>
-          <Switch>
-            <Route path={`${url}/cast`}>
-              <Cast movieId={movieId} baseURL={baseURL} />
-            </Route>
+          <Suspense fallback={<h1>LOAD...</h1>}>
+            <Switch>
+              <Route path={`${url}/cast`}>
+                <Cast movieId={movieId} baseURL={baseURL} />
+              </Route>
 
-            <Route path={`${url}/reviews`}>
-              <Reviews movieId={movieId} />
-            </Route>
-          </Switch>
+              <Route path={`${url}/reviews`}>
+                <Reviews movieId={movieId} />
+              </Route>
+            </Switch>
+          </Suspense>
         </>
       )}
     </>
