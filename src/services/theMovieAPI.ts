@@ -14,9 +14,11 @@ export const getTrending = () => {
 };
 
 export const searchMovies = (searchString: string) => {
-  return fetch(`${BASE_URL}search/movie?api_key=${API_KEY}&language=en-US&query=${searchString}&page=1&include_adult=false`) 
-  .then((res) => res.json())
-  .then((res) => getTitlesList(res));
+  return fetch(
+    `${BASE_URL}search/movie?api_key=${API_KEY}&language=en-US&query=${searchString}&page=1&include_adult=false`
+  )
+    .then((res) => res.json())
+    .then((res) => getTitlesList(res));
 };
 
 const getTitlesList = (res: any) => {
@@ -26,8 +28,7 @@ const getTitlesList = (res: any) => {
       title: item.title,
     };
   });
-
-}
+};
 
 export const getMovieDetails = (movieId: string) => {
   return fetch(`${BASE_URL}/movie/${movieId}?api_key=${API_KEY}`).then((res) =>
